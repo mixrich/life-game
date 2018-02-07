@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Life</title>
+
+    <style>
+        #root {
+            display: grid;
+            grid-template-columns: repeat(10, 30px);
+        }
+
+        #root span {
+            display: flex;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            border: 1px solid #ccc;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #root span + span {
+            margin-right: -1px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <button id="button" onclick="step()">step</button>
+    <script src="cell.js"></script>
+    <script src="life.js"></script>
+</body>
+</html>
