@@ -36,6 +36,7 @@ function drawNeig(cell) {
 }
 
 root.addEventListener('click', (event) => {
+    if (!event.target.hasAttribute('data-index')) return;
     var index = event.target.getAttribute('data-index');
     var cell = cells[+index];
     // drawNeig(cell);
