@@ -14,7 +14,9 @@ function drawCells(cells) {
     root.innerHTML = '';
     cells.forEach((cell, index) => {
         var cellDOM = document.createElement('span');
-        cellDOM.innerHTML = cell.isLife ? '0' : ' ';
+        if (cell.isLife) {
+            cellDOM.setAttribute('data-active', 'true');
+        }
         cellDOM.setAttribute('data-index', index);
         root.appendChild(cellDOM);
     })

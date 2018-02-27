@@ -13,17 +13,16 @@
         }
 
         #root span {
-            display: flex;
             width: 30px;
             height: 30px;
             text-align: center;
-            border: 1px solid #ccc;
-            justify-content: center;
-            align-items: center;
+            box-sizing: border-box;
+            border-top: 1px solid #ccc;
+            border-left: 1px solid #ccc;
         }
 
-        #root span + span {
-            margin-right: -1px;
+        #root span[data-active="true"] {
+            background: green;
         }
     </style>
 </head>
