@@ -1,42 +1,15 @@
-function Cell(xDefault, yDefault, isActiveDefault) {
-    let _coords = {
-        x: xDefault,
-        y: yDefault
-    }
+function Cell(x, y, isActiveDefault) {
 
+    /* Cell coords */
+    let _coords = {x, y};
+
+    /* is Cell Active/Live ? */
     let _isActive = !!isActiveDefault;
 
+    /* Neighbours for current Cell */
     let _neighbours = [];
 
-    this.init = () => {
-        _neighbours = getNeigh();
-    }
-
-    this.getNeighbours = () => {
-        return _neighbours;
-    }
-
-    this.setCoords = (coords) => {
-        _coords = Object.assign(_coords, coords);
-    }
-
-    this.getCoords = () => {
-        return {..._coords};
-    }
-
-    this.setActive = (isActive) => {
-        _isActive = Boolean(isActive);
-    }
-
-    this.getActive = () => {
-        return _isActive;
-    }
-
-    this.toggleActive = () => {
-        _isActive = !_isActive;
-        return _isActive;
-    }
-    
+    /* Calculate Neighbours for current Cell */
     const getNeigh = () => {
         const {x, y} = _coords;
         return cells.filter(cell => {
@@ -75,10 +48,33 @@ function Cell(xDefault, yDefault, isActiveDefault) {
         })
     }
 
-    this.getStep = () => {
-        const neigh = this.getNeighbours();
+    this.init = () => {
+        _neighbours = getNeigh();
+    }
 
-        var lives = neigh.filter(cell => {
+    this.setCoords = (coords) => {
+        _coords = Object.assign(_coords, coords);
+    }
+
+    this.getCoords = () => {
+        return {..._coords};
+    }
+
+    this.setActive = (isActive) => {
+        _isActive = Boolean(isActive);
+    }
+
+    this.getActive = () => {
+        return _isActive;
+    }
+
+    this.toggleActive = () => {
+        _isActive = !_isActive;
+        return _isActive;
+    }
+
+    this.getActiveForNextStep = () => {
+        var lives = _neighbours.filter(cell => {
             return cell.getActive();            
         });
         var livesCount = lives.length;

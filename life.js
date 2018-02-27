@@ -39,7 +39,7 @@ root.addEventListener('click', (event) => {
 });
 
 function step() {
-    var newCellsLives = cells.map(cell => cell.getStep());
+    var newCellsLives = cells.map(cell => cell.getActiveForNextStep());
     
     var newCells = cells.map((cell, index) => {
         cell.setActive(newCellsLives[index]);
