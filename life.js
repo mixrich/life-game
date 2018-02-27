@@ -14,7 +14,7 @@ function drawCells(cells) {
     root.innerHTML = '';
     cells.forEach((cell, index) => {
         var cellDOM = document.createElement('span');
-        if (cell.isLife) {
+        if (cell.getActive()) {
             cellDOM.setAttribute('data-active', 'true');
         }
         cellDOM.setAttribute('data-index', index);
@@ -25,15 +25,7 @@ function drawCells(cells) {
 drawCells(cells);
 
 function clearAll() {
-    cells.forEach(cell => cell.isLife = false);
-    drawCells(cells);
-}
-
-function drawNeig(cell) {
-    clearAll();
-    cell.getNeigh().forEach(n => n.isLife = true);
-    cell.isLife = true;
-    
+    cells.forEach(cell => cell.setActive(false));
     drawCells(cells);
 }
 
@@ -41,20 +33,21 @@ root.addEventListener('click', (event) => {
     if (!event.target.hasAttribute('data-index')) return;
     var index = event.target.getAttribute('data-index');
     var cell = cells[+index];
-    // drawNeig(cell);
-    cell.isLife = !cell.isLife;
+    cell.toggleActive();
     drawCells(cells);
 });
 
 function step() {
     var newCellsLives = cells.map(cell => cell.getStep());
+    
     var newCells = cells.map((cell, index) => {
-        cell.isLife = newCellsLives[index];
+        cell.setActive(newCellsLives[index]);
         return cell;
     });
 
     cells = newCells;
-    drawCells(cells);    
+    drawCells(cells);
+        
 }
 
 var isAutoStep = false;

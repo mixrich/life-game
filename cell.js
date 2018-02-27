@@ -1,50 +1,86 @@
-function Cell(x, y, isLife) {
-    this.x = x;
-    this.y = y;
-    this.isLife = !!isLife;
+function Cell(xDefault, yDefault, isActiveDefault) {
+
+    let _coords = {
+        x: xDefault,
+        y: yDefault
+    }
+
+
+    let _isActive = !!isActiveDefault;
+
+    this.setCoords = (coords) => {
+        _coords = Object.assign(_coords, coords);
+    }
+
+    this.getCoords = () => {
+        return {..._coords};
+    }
+
+    this.setActive = (isActive) => {
+        _isActive = Boolean(isActive);
+    }
+
+    this.getActive = () => {
+        return _isActive;
+    }
+
+    this.toggleActive = () => {
+        _isActive = !_isActive;
+        return _isActive;
+    }
     
     this.getNeigh = () => {
-        return this.neig = cells.filter(cell => {
+        const {x, y} = _coords;
+        return cells.filter(cell => {
+            const cellCoords = cell.getCoords();
+            var xMin = x - 1;
+            var xMax = x + 1;
 
-            var xMin = this.x - 1;
-            var xMax = this.x + 1;
+            var yMin = y - 1;
+            var yMax = y + 1;
 
-            var yMin = this.y - 1;
-            var yMax = this.y + 1;
-
-            if (xMax >= n && cell.x === 0) {
+            if (xMax >= n && cellCoords.x === 0) {
                 xMax = 0;
                 xMin = 0;
             }
 
-            if (yMax >= n && cell.y === 0) {
+            if (yMax >= n && cellCoords.y === 0) {
                 yMax = 0;
                 yMin = 0;
             }
 
-            if (xMin < 0 && cell.x === n - 1) {
+            if (xMin < 0 && cellCoords.x === n - 1) {
                 xMax = n;
                 xMin = n-1;
             }
 
-            if (yMin < 0 && cell.y === n - 1) {
+            if (yMin < 0 && cellCoords.y === n - 1) {
                 yMax = n;
                 yMin = n-1;
             }
             
 
-            var isByX = cell.x <= xMax && cell.x >= xMin;
-            var isByY = cell.y <= yMax && cell.y >= yMin;
+            var isByX = cellCoords.x <= xMax && cellCoords.x >= xMin;
+            var isByY = cellCoords.y <= yMax && cellCoords.y >= yMin;
 
             return isByX && isByY && cell !== this;
         })
     }
 
     this.getStep = () => {
-        this.getNeigh();
-        var lives = this.neig.filter(cell => cell.isLife);
+        const neigh = this.getNeigh();
+        /* console.log(neigh.map(cell => {
+            return {
+                coord: cell.getCoords(),
+                act: cell.getActive()
+            }
+        })) */
+        var lives = neigh.filter(cell => {
+            return cell.getActive();            
+        });
         var livesCount = lives.length;
-        var isLive = this.isLife ? (livesCount >=2 && livesCount <= 3) : livesCount === 3;
+        var isLive = this.getActive() ? (livesCount >=2 && livesCount <= 3) : livesCount === 3;
+        
         return isLive;
     }
 }
