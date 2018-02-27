@@ -9,7 +9,12 @@ function Cell(x, y, isActiveDefault) {
     /* Neighbours for current Cell */
     let _neighbours = [];
 
-    /* Calculate Neighbours for current Cell */
+    /* 
+        Calculate Neighbours for current Cell.
+
+        The grid is "Infinite". If Cell doesn't has neighbour at one side,
+        it takes neighbour from opposite side of grid.
+    */
     const getNeigh = () => {
         const {x, y} = _coords;
         return cells.filter(cell => {
@@ -64,7 +69,7 @@ function Cell(x, y, isActiveDefault) {
         _isActive = Boolean(isActive);
     }
 
-    this.getActive = () => {
+    this.isActive = () => {
         return _isActive;
     }
 
@@ -74,11 +79,12 @@ function Cell(x, y, isActiveDefault) {
     }
 
     this.getActiveForNextStep = () => {
-        var lives = _neighbours.filter(cell => {
-            return cell.getActive();            
-        });
-        var livesCount = lives.length;
-        var isLive = this.getActive() ? (livesCount >=2 && livesCount <= 3) : livesCount === 3;
+        const activeNeighboursCount = _neighbours.reduce((acc, cell) => {
+            if (cell.isActive()) acc++;
+            return acc;    
+        }, 0);
+        
+        var isLive = this.isActive() ? (activeNeighboursCount >=2 && activeNeighboursCount <= 3) : activeNeighboursCount === 3;
         
         return isLive;
     }

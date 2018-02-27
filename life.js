@@ -15,7 +15,7 @@ function drawCells(cells) {
     root.innerHTML = '';
     cells.forEach((cell, index) => {
         var cellDOM = document.createElement('span');
-        if (cell.getActive()) {
+        if (cell.isActive()) {
             cellDOM.setAttribute('data-active', 'true');
         }
         cellDOM.setAttribute('data-index', index);
@@ -39,8 +39,10 @@ root.addEventListener('click', (event) => {
 });
 
 function step() {
+    /* To make culculating next step clean, firstly calculate will Cell be active for next step */
     var newCellsLives = cells.map(cell => cell.getActiveForNextStep());
     
+    /* and only after calculating active setting it. */
     var newCells = cells.map((cell, index) => {
         cell.setActive(newCellsLives[index]);
         return cell;
