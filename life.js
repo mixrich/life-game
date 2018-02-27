@@ -9,6 +9,7 @@ for (var y = 0; y< n; y++) {
     }
 }
 
+cells.forEach(cell => cell.init());
 
 function drawCells(cells) {
     root.innerHTML = '';

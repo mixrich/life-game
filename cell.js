@@ -1,12 +1,20 @@
 function Cell(xDefault, yDefault, isActiveDefault) {
-
     let _coords = {
         x: xDefault,
         y: yDefault
     }
 
-
     let _isActive = !!isActiveDefault;
+
+    let _neighbours = [];
+
+    this.init = () => {
+        _neighbours = getNeigh();
+    }
+
+    this.getNeighbours = () => {
+        return _neighbours;
+    }
 
     this.setCoords = (coords) => {
         _coords = Object.assign(_coords, coords);
@@ -29,7 +37,7 @@ function Cell(xDefault, yDefault, isActiveDefault) {
         return _isActive;
     }
     
-    this.getNeigh = () => {
+    const getNeigh = () => {
         const {x, y} = _coords;
         return cells.filter(cell => {
             const cellCoords = cell.getCoords();
@@ -68,13 +76,8 @@ function Cell(xDefault, yDefault, isActiveDefault) {
     }
 
     this.getStep = () => {
-        const neigh = this.getNeigh();
-        /* console.log(neigh.map(cell => {
-            return {
-                coord: cell.getCoords(),
-                act: cell.getActive()
-            }
-        })) */
+        const neigh = this.getNeighbours();
+
         var lives = neigh.filter(cell => {
             return cell.getActive();            
         });
