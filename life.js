@@ -56,3 +56,18 @@ function step() {
     cells = newCells;
     drawCells(cells);    
 }
+
+var isAutoStep = false;
+var autostepTimer = null;
+
+buttonInterval.addEventListener('click', function() {
+    if (isAutoStep) {
+        clearInterval(autostepTimer);
+    } else {
+        autostepTimer = setInterval(function() {
+            step();
+        }, 125)
+    }
+
+    isAutoStep = !isAutoStep;
+});
